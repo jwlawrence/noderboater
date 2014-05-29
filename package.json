@@ -1,0 +1,29 @@
+{
+  "name": "node-boat",
+  "version": "0.1.0",
+  "description": "An node boat controller",
+  "main": "nodeboat.js",
+  "dependencies": {
+    "johnny-five": "~0.7.46",
+    "spark-io": "~0.4.0",
+    "twitter": "~0.2.9",
+    "util": "~0.10.3"
+  },
+  "devDependencies": {
+    "util": "~0.10.3",
+    "twitter": "~0.2.9"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Yahosh/noderboater.git"
+  },
+  "author": "JSConf",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yahosh/noderboater/issues"
+  },
+  "homepage": "https://github.com/Yahosh/noderboater"
+}

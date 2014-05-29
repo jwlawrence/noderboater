@@ -1,0 +1,123 @@
+Keyes Sensors
+
+
+- device: Ball Switch
+  file: eg/ball-switch
+  parts:
+    - Arduino
+    - Ball Switch Breakout
+  wiring:
+    - Signal to Digital 7
+    - Ground to Ground
+    - Power to 5V
+
+- device: Seven Color Flash
+  file: eg/seven-color-flash
+  parts:
+    - Arduino
+    - Seven Color Flash Breakout
+  wiring:
+    - Signal to Digital 13
+    - Ground to Ground
+    - Power to 5V
+
+- device: Relay
+  file: eg/relay
+  parts:
+    - Arduino
+    - Relay Breakout
+  wiring:
+    - Signal to Digital 10
+    - Ground to Ground
+    - Power to 5V
+
+- device: Touch
+  file: eg/touch
+  parts:
+    - Arduino
+    - Touch Breakout
+  wiring:
+    - AO to Analog 0
+    - DO to Digital 6
+    - Ground to Ground
+    - Power to 5V
+
+- device: Laser Emitter
+  file: eg/laser
+  parts:
+    - Arduino
+    - Laser Emitter Breakout
+  wiring:
+    - Signal to Digital 10
+    - Ground to Ground
+    - Power to 5V
+
+- device: Buzzer
+  file: eg/piezo
+  parts:
+    - Arduino
+    - Buzzer Breakout
+  wiring:
+    - Signal to Digital 3
+    - Ground to Ground
+    - Power to 5V
+
+- device: Shock/Vibration
+  file: eg/shock-vibration
+  parts:
+    - Arduino
+    - Shock/Vibration Breakout
+  wiring:
+    - Signal to Digital 2
+    - Ground to Ground
+    - Power to 5V
+
+- device: Rotary Encoder
+  file: eg/rotary-encoder
+  parts:
+    - Arduino
+    - Rotary Encoder Breakout
+  wiring:
+    - Signal to Digital 10
+    - Ground to Ground
+    - Power to 5V
+
+- device: Linear Magnetic Hall
+  file: eg/linear-magnetic-hall
+  parts:
+    - Arduino
+    - Linear Magnetic Hall Breakout
+  wiring:
+    - AO to Analog 0
+    - DO to Digital 2
+    - Ground to Ground
+    - Power to 5V
+
+
+
+
+
+
+Buzzer: eg/piezo
+Laser Emitter: eg/laser
+Shock/Vibration: eg/shock-vibration
+Rotary Encoder: eg/rotary-encoder
+
+
+
+
+
+
+
+
+Linear Magnetic Hall: eg/linear-magnetic-hall
+Hall Magnetic Field: eg/hall-magnetic-field
+Buzzer: eg/piezo
+Laser Emitter: eg/laser
+Shock/Vibration: eg/shock-vibration
+Rotary Encoder: eg/rotary-encoder
+Touch: eg/touch
+Relay: eg/relay
+Seven Color Flash: eg/eg/seven-color-flash
+Heart Beat: eg/heart-beat
+
