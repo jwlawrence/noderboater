@@ -2,6 +2,9 @@ var five = require("johnny-five");
 var keypress = require("keypress");
 var config = require('config');
 var Spark = require("spark-io");
+var twitter = require('twitter');
+
+var twit = new twitter(config.twitter);
 
 var board = new five.Board({
 	io: new Spark(config.io2)
@@ -13,10 +16,11 @@ var directions = {
 	0: 'right'
 };
 
+var commandArray = [];
+
 board.on("ready", function() {
 	var speed = 0;
 	var dir = 45;
-	var commandArray = ['forward','reverse'];
 	var commandExecuting = false;
 
 	var servo  = new five.Servo({
@@ -66,13 +70,10 @@ board.on("ready", function() {
 	};
 	
 	var nextCommand = function nextCommand() {
-		if (commandExecuting) {
-			stop();
-			commandExecuting = false;
-		}
-	
 		if (commandArray.length > 0) {
 			var command = commandArray.shift();
+			console.log('Twitter command: ' + command);
+			
 			switch(command) {
 				case 'forward':
 					dir = 45;
@@ -84,7 +85,7 @@ board.on("ready", function() {
 				case 'reverse':
 					dir = 45;
 					direction();
-					speed = -210;
+					speed = 210;
 					move();
 					commandExecuting = true;
 					break;
@@ -103,11 +104,10 @@ board.on("ready", function() {
 					commandExecuting = true;
 					break;
 			}
+		} else if (commandExecuting) {
+			stop();
+			commandExecuting = false;
 		}
-	};
-	
-	var addCommands = function addCommands(newCommands) {
-		commandArray.concat(newCommands);
 	};
 	
 	console.log("The board is ready");
@@ -147,6 +147,31 @@ board.on("ready", function() {
 	setInterval(function () {
 		nextCommand()
 	}, 2000);
+});
+
+var addCommands = function addCommands(newCommands) {
+	commandArray = commandArray.concat(newCommands);
+	console.log(commandArray);
+};
+
+twit.stream('statuses/filter', { follow: '2533213633' }, function(stream) {
+	var okCommands = ['forward', 'reverse', 'left', 'right'];
+    stream.on('data', function(data) {
+    	var userCommands = data.text.split(' '),
+    		queue = [];
+
+    	// for each user command, if it is in the okCommand array include it in the function call
+    	for (var i = 0; i < userCommands.length; i += 1) {
+    		var command = userCommands[i].trim();
+
+    		if ( okCommands.indexOf(command) !== -1 ) {
+    			queue.push(command)
+    		}
+    	};
+
+    	// call function to execute array of commands
+    	addCommands(queue);
+    });
 });
 
 keypress(process.stdin);
