@@ -7,7 +7,7 @@ var twitter = require('twitter');
 var twit = new twitter(config.twitter);
 
 var board = new five.Board({
-	io: new Spark(config.io2)
+	io: new Spark(config.io)
 });
 
 var directions = {
