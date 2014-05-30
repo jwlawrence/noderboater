@@ -60,12 +60,12 @@ board.on("ready", function() {
 	};
 	
 	var increase = function increase() {
-		if (speed > -210) speed -= 70;
+		if (speed > -255) speed -= 85;
 		move();
 	};
 	
 	var decrease = function decrease() {
-		if (speed < 210) speed += 70;
+		if (speed < 255) speed += 85;
 		move();
 	};
 	
@@ -78,28 +78,28 @@ board.on("ready", function() {
 				case 'forward':
 					dir = 45;
 					direction();
-					speed = -210;
+					speed = -255;
 					move();
 					commandExecuting = true;
 					break;
 				case 'reverse':
 					dir = 45;
 					direction();
-					speed = 210;
+					speed = 255;
 					move();
 					commandExecuting = true;
 					break;
 				case 'left':
 					dir = 90;
 					direction();
-					speed = -210;
+					speed = -255;
 					move();
 					commandExecuting = true;
 					break;
 				case 'right':
 					dir = 0;
 					direction();
-					speed = -210;
+					speed = -255;
 					move();
 					commandExecuting = true;
 					break;
