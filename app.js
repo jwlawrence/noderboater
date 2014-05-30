@@ -16,8 +16,11 @@ var directions = {
 	0: 'right'
 };
 
+var okCommands = ['forward', 'reverse', 'left', 'right'];
+
 var commandArray = [];
 
+// TO-DO: there should probably be some retry logic
 board.on("ready", function() {
 	var speed = 0;
 	var dir = 45;
@@ -35,10 +38,15 @@ board.on("ready", function() {
 	});
 	
 	var stop = function stop() {
+		// the motor needs to be dir 0 for the stop command to work
 		motor.reverse(0);
 		motor.stop();
 	};
 	
+	// the motor library has to send lower values if it is sending a 'forward' command
+	// because what matters is the differential between dir and pwm and the h-bridge does
+	// not handle this for us. the latest version of the johnny-five motor library may
+	// handle this but leaving this as-is as the hack event is done
 	var move = function move() {
 		if (speed < 0) {
 			motor.forward(255+speed);
@@ -69,6 +77,7 @@ board.on("ready", function() {
 		move();
 	};
 	
+	// writing everything so fast..........
 	var nextCommand = function nextCommand() {
 		if (commandArray.length > 0) {
 			var command = commandArray.shift();
@@ -151,27 +160,33 @@ board.on("ready", function() {
 
 var addCommands = function addCommands(newCommands) {
 	commandArray = commandArray.concat(newCommands);
-	console.log(commandArray);
 };
 
-twit.stream('statuses/filter', { follow: '2533213633' }, function(stream) {
-	var okCommands = ['forward', 'reverse', 'left', 'right'];
-    stream.on('data', function(data) {
-    	var userCommands = data.text.split(' '),
-    		queue = [];
-
-    	// for each user command, if it is in the okCommand array include it in the function call
-    	for (var i = 0; i < userCommands.length; i += 1) {
-    		var command = userCommands[i].trim();
-
-    		if ( okCommands.indexOf(command) !== -1 ) {
-    			queue.push(command)
-    		}
-    	};
-
-    	// call function to execute array of commands
-    	addCommands(queue);
-    });
-});
+try {
+	twit.stream('statuses/filter', { follow: '2533213633' }, function(stream) {
+	    stream.on('data', function(data) {
+	    	// take a space-delimitted list of commands
+	    	var userCommands = data.text.split(' '),
+	    		queue = [];
+	
+	    	// for each user command, if it is in the okCommand array include it in the function call
+	    	for (var i = 0; i < userCommands.length; i += 1) {
+	    		var command = userCommands[i].trim();
+	
+	    		if ( okCommands.indexOf(command) !== -1 ) {
+	    			queue.push(command)
+	    		}
+	    	};
+	    	
+	    	// TO-DO: if commands were added it'd be great to add a final command that tweets back
+	    	//        at the sending user once their commands have been executed
+	
+	    	// call function to execute array of commands
+	    	addCommands(queue);
+	    });
+	});
+} catch (e) {
+	console.log('Twitter failed to init, proceeding without it');
+}
 
 keypress(process.stdin);
